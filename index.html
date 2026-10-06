@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUD</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap">
+</head>
+<body>
+    <div id="server-overlay" class="server-overlay">
+        <div class="overlay-logo">
+            <img src="img/logo.png" alt="Server Logo">
+        </div>
+        <div class="overlay-info">
+            <span class="overlay-hash">#</span>
+            <span class="overlay-id">1</span>
+            <span class="overlay-sep"></span>
+            <span class="overlay-clock-dot">&#9679;</span>
+            <span class="overlay-time">00:00:00</span>
+        </div>
+    </div>
+
+    <div class="navassist" style="display: none;">
+        <div class="navassist-inner">
+            <img class="navassist-icon" src="img/gps-arrow.png" alt=""/>
+            <div class="navassist-info">
+                <span class="navassist-street">Seaview Rd</span>
+                <span class="navassist-zone">Zone</span>
+            </div>
+            <span class="navassist-distance">150m</span>
+        </div>
+    </div>
+    <main>
+        <div class="keys-wrapper editable"></div>
+
+        <div class="map-wrapper">
+            <div class="map-top">
+                <div class="address-wrapper">
+                    <div class="text-wrapper"></div>
+                </div>
+                <div class="time-wrapper">
+                    <div class="text-wrapper"></div>
+                </div>
+            </div>
+            <div class="map-outline">
+            </div>
+        </div>
+
+
+        <div class="speedo-wrapper-main editable">
+            <div class="speedo-wrapper default">
+                <div class="new-gauge">
+                    <svg class="new-gauge-svg" viewBox="-20 0 280 240">
+                        <defs>
+                            <linearGradient id="speedGradient" x1="100%" y1="50%" x2="0%" y2="50%">
+                                <stop offset="0%" stop-color="#00ff87"/>
+                                <stop offset="60%" stop-color="#f5a623"/>
+                                <stop offset="100%" stop-color="#ff4444"/>
+                            </linearGradient>
+                            <filter id="arcGlow">
+                                <feGaussianBlur stdDeviation="4" result="blur"/>
+                                <feMerge>
+                                    <feMergeNode in="blur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <circle cx="120" cy="120" r="110" fill="rgba(20,20,24,0.75)"/>
+                        <circle cx="120" cy="120" r="110" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+                        <circle class="new-arc-bg" cx="120" cy="120" r="98" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4" stroke-dasharray="461.81 153.94" transform="rotate(135 120 120)"/>
+                        <circle class="new-arc-glow" cx="120" cy="120" r="98" fill="none" stroke="url(#speedGradient)" stroke-width="8" stroke-dasharray="0 615.75" stroke-linecap="round" transform="rotate(135 120 120)" filter="url(#arcGlow)" opacity="0.5"/>
+                        <circle class="new-arc-fill" cx="120" cy="120" r="98" fill="none" stroke="url(#speedGradient)" stroke-width="4" stroke-dasharray="0 615.75" stroke-linecap="round" transform="rotate(135 120 120)"/>
+                        <g stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-linecap="round">
+                            <line x1="120" y1="26" x2="120" y2="34" transform="rotate(67.5 120 120)"/>
+                            <line x1="120" y1="26" x2="120" y2="34" transform="rotate(81 120 120)"/>
+                            <line x1="120" y1="26" x2="120" y2="34" transform="rotate(94.5 120 120)"/>
+                            <line x1="120" y1="26" x2="120" y2="34" transform="rotate(108 120 120)"/>
+                            <line x1="120" y1="26" x2="120" y2="34" transform="rotate(121.5 120 120)"/>
+                        </g>
+                        <circle class="new-arc-marker" cx="120" cy="120" r="98" fill="none" stroke="#ffffff" stroke-width="6" stroke-dasharray="4 611.75" stroke-linecap="round" transform="rotate(135 120 120)" opacity="0.9"/>
+                        <circle class="side-fuel-bg" cx="120" cy="120" r="120" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="5" stroke-dasharray="167.55 586.43" stroke-linecap="round" transform="rotate(140 120 120)"/>
+                        <circle class="side-fuel-fill" cx="120" cy="120" r="120" fill="none" stroke="#00ff87" stroke-width="5" stroke-dasharray="0 753.98" stroke-linecap="round" transform="rotate(140 120 120)"/>
+                        <circle class="side-engine-bg" cx="120" cy="120" r="120" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="5" stroke-dasharray="167.55 586.43" stroke-linecap="round" transform="rotate(320 120 120)"/>
+                        <circle class="side-engine-fill" cx="120" cy="120" r="120" fill="none" stroke="#ffffff" stroke-width="5" stroke-dasharray="0 753.98" stroke-linecap="round" transform="rotate(320 120 120)"/>
+                    </svg>
+                    <div class="new-gauge-center">
+                        <div class="new-gauge-gear-badge">
+                            <span class="new-gauge-gear-text">N</span>
+                        </div>
+                        <div class="vehicle-speed new-gauge-speed">000</div>
+                        <div class="speed-type new-gauge-unit">KMH</div>
+                    </div>
+                    <i class="fas fa-gas-pump new-gauge-fuel-icon"></i>
+                    <i class="fas fa-car-battery new-gauge-engine-icon"></i>
+                </div>
+                <div class="gear-wrapper-hidden">
+                    <div class="prev gear">R</div>
+                    <div class="active gear">N</div>
+                    <div class="next gear">1</div>
+                </div>
+                <div class="fuel-fill" style="display:none;"></div>
+            </div>
+            <div class="speedo-minimal">
+                <div class="mini-top">
+                    <div class="mini-fuel-col">
+                        <i class="fas fa-gas-pump mini-fuel-icon"></i>
+                        <div class="mini-fuel-track">
+                            <div class="mini-fuel-fill"></div>
+                        </div>
+                    </div>
+                    <div class="mini-speed-block">
+                        <div class="vehicle-speed mini-speed">000</div>
+                        <div class="speed-type mini-unit">KMH</div>
+                    </div>
+                    <div class="mini-rpm">
+                        <div class="mini-rpm-col"></div>
+                        <div class="mini-rpm-col"></div>
+                        <div class="mini-rpm-col"></div>
+                        <div class="mini-rpm-col"></div>
+                        <div class="mini-rpm-col"></div>
+                        <div class="mini-rpm-col"></div>
+                        <div class="mini-rpm-col"></div>
+                        <div class="mini-rpm-col"></div>
+                    </div>
+                </div>
+                <div class="mini-bottom">
+                    <div class="mini-fuel-percent">0%</div>
+                    <div class="mini-gear-wrapper">
+                        <div class="mini-prev mini-gear-item">R</div>
+                        <div class="mini-active mini-gear-item">N</div>
+                        <div class="mini-next mini-gear-item">1</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="speedo-circular">
+                <div class="gauge-container">
+                    <svg class="gauge-svg" viewBox="-15 0 230 215">
+                        <circle cx="100" cy="100" r="96" fill="rgba(10,10,12,0.75)"/>
+                        <circle class="gauge-danger-bg" cx="100" cy="100" r="96" fill="rgba(255,20,20,0.15)" opacity="0"/>
+                        <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                        <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.8"/>
+                        <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+                        <g stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round">
+                            <line x1="100" y1="6" x2="100" y2="22" transform="rotate(225 100 100)"/>
+                            <line x1="100" y1="6" x2="100" y2="22" transform="rotate(258.75 100 100)"/>
+                            <line x1="100" y1="6" x2="100" y2="22" transform="rotate(292.5 100 100)"/>
+                            <line x1="100" y1="6" x2="100" y2="22" transform="rotate(326.25 100 100)"/>
+                            <line x1="100" y1="6" x2="100" y2="22" transform="rotate(0 100 100)"/>
+                            <line x1="100" y1="6" x2="100" y2="22" transform="rotate(33.75 100 100)"/>
+                            <line x1="100" y1="6" x2="100" y2="22" transform="rotate(67.5 100 100)"/>
+                        </g>
+                        <g stroke="rgba(255,50,50,0.8)" stroke-width="2" stroke-linecap="round">
+                            <line x1="100" y1="6" x2="100" y2="22" transform="rotate(101.25 100 100)"/>
+                            <line x1="100" y1="6" x2="100" y2="22" transform="rotate(135 100 100)"/>
+                        </g>
+                        <g stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-linecap="round">
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(233.44 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(241.88 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(250.31 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(267.19 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(275.63 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(284.06 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(300.94 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(309.38 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(317.81 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(334.69 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(343.13 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(351.56 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(8.44 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(16.88 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(25.31 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(42.19 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(50.63 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(59.06 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(75.94 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(84.38 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(92.81 100 100)"/>
+                        </g>
+                        <g stroke="rgba(255,50,50,0.25)" stroke-width="1" stroke-linecap="round">
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(109.69 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(118.13 100 100)"/>
+                            <line x1="100" y1="10" x2="100" y2="18" transform="rotate(126.56 100 100)"/>
+                        </g>
+                        <g fill="rgba(255,255,255,0.5)" font-size="9" font-family="Barlow, sans-serif" font-weight="600" text-anchor="middle" dominant-baseline="central">
+                            <text x="49" y="151">0</text>
+                            <text x="27" y="114">40</text>
+                            <text x="32" y="72">80</text>
+                            <text x="58" y="40">120</text>
+                            <text x="100" y="28">160</text>
+                            <text x="142" y="40">200</text>
+                            <text x="168" y="72">240</text>
+                        </g>
+                        <g fill="rgba(255,50,50,0.6)" font-size="9" font-family="Barlow, sans-serif" font-weight="600" text-anchor="middle" dominant-baseline="central">
+                            <text x="173" y="114">280</text>
+                            <text x="151" y="151">320</text>
+                        </g>
+                        <circle class="real-fuel-bg" cx="100" cy="100" r="105" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4" stroke-dasharray="146.61 513.12" stroke-linecap="round" transform="rotate(140 100 100)"/>
+                        <circle class="real-fuel-fill" cx="100" cy="100" r="105" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="0 659.73" stroke-linecap="round" transform="rotate(140 100 100)"/>
+                        <circle class="real-engine-bg" cx="100" cy="100" r="105" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="4" stroke-dasharray="146.61 513.12" stroke-linecap="round" transform="rotate(320 100 100)"/>
+                        <circle class="real-engine-fill" cx="100" cy="100" r="105" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="0 659.73" stroke-linecap="round" transform="rotate(320 100 100)"/>
+                        <g class="gauge-needle-group" transform="rotate(225 100 100)">
+                            <polygon points="97.5,108 102.5,108 100.4,28 99.6,28" fill="rgba(255,30,30,0.15)"/>
+                            <polygon points="96,108 104,108 103,116 97,116" fill="#333" stroke="#444" stroke-width="0.5"/>
+                            <polygon points="97.8,104 102.2,104 100.3,26 99.7,26" fill="#ff2222"/>
+                            <line x1="100" y1="100" x2="100" y2="30" stroke="rgba(255,100,100,0.4)" stroke-width="0.6"/>
+                        </g>
+                        <circle cx="100" cy="100" r="6" fill="#1a1a1a" stroke="#555" stroke-width="1"/>
+                        <circle cx="100" cy="100" r="3.5" fill="#ff2222"/>
+                        <circle cx="100" cy="100" r="1.5" fill="rgba(255,255,255,0.3)"/>
+                    </svg>
+                    <div class="gauge-center">
+                        <div class="vehicle-speed">000</div>
+                        <div class="speed-type">km/h</div>
+                        <div class="gauge-gear-number gear-wrapper">
+                            <span class="prev gear" style="display:none">R</span>
+                            <span class="active gear">N</span>
+                            <span class="next gear" style="display:none">1</span>
+                        </div>
+                    </div>
+                    <i class="fas fa-gas-pump gauge-icon-fuel"></i>
+                    <i class="fas fa-car-battery gauge-icon-engine"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="player-status bars editable">
+            <div class="stat-row health-stat">
+                <svg class="stat-ring" viewBox="0 0 48 48"><circle class="ring-bg" cx="24" cy="24" r="20"/><circle class="ring-fill" cx="24" cy="24" r="20" stroke-dasharray="125.66" stroke-dashoffset="125.66"/></svg>
+                <i class="fas fa-heart stat-icon"></i>
+                <div class="stat-bar-track"><div class="progress-bar"></div></div>
+                <span class="stat-percent health-percent">0%</span>
+            </div>
+            <div class="stat-row armor-stat">
+                <svg class="stat-ring" viewBox="0 0 48 48"><circle class="ring-bg" cx="24" cy="24" r="20"/><circle class="ring-fill" cx="24" cy="24" r="20" stroke-dasharray="125.66" stroke-dashoffset="125.66"/></svg>
+                <i class="fas fa-shield-halved stat-icon"></i>
+                <div class="stat-bar-track"><div class="progress-bar"></div></div>
+                <span class="stat-percent armor-percent">0%</span>
+            </div>
+            <div class="stat-row hunger-stat">
+                <svg class="stat-ring" viewBox="0 0 48 48"><circle class="ring-bg" cx="24" cy="24" r="20"/><circle class="ring-fill" cx="24" cy="24" r="20" stroke-dasharray="125.66" stroke-dashoffset="125.66"/></svg>
+                <i class="fas fa-utensils stat-icon"></i>
+                <div class="stat-bar-track"><div class="progress-bar"></div></div>
+                <span class="stat-percent hunger-percent">0%</span>
+            </div>
+            <div class="stat-row thirst-stat">
+                <svg class="stat-ring" viewBox="0 0 48 48"><circle class="ring-bg" cx="24" cy="24" r="20"/><circle class="ring-fill" cx="24" cy="24" r="20" stroke-dasharray="125.66" stroke-dashoffset="125.66"/></svg>
+                <i class="fas fa-bottle-water stat-icon"></i>
+                <div class="stat-bar-track"><div class="progress-bar"></div></div>
+                <span class="stat-percent thirst-percent">0%</span>
+            </div>
+            <div class="stat-row stamina-stat">
+                <svg class="stat-ring" viewBox="0 0 48 48"><circle class="ring-bg" cx="24" cy="24" r="20"/><circle class="ring-fill" cx="24" cy="24" r="20" stroke-dasharray="125.66" stroke-dashoffset="125.66"/></svg>
+                <i class="fas fa-lungs stat-icon"></i>
+                <div class="stat-bar-track"><div class="progress-bar"></div></div>
+                <span class="stat-percent stamina-percent">0%</span>
+            </div>
+            <div class="stat-row oxygen-stat">
+                <svg class="stat-ring" viewBox="0 0 48 48"><circle class="ring-bg" cx="24" cy="24" r="20"/><circle class="ring-fill" cx="24" cy="24" r="20" stroke-dasharray="125.66" stroke-dashoffset="125.66"/></svg>
+                <i class="fas fa-lungs stat-icon"></i>
+                <div class="stat-bar-track"><div class="progress-bar"></div></div>
+                <span class="stat-percent oxygen-percent">0%</span>
+            </div>
+        </div>
+    </main>
+
+    <div class="settings">
+        <div class="settings-overlay"></div>
+        <div class="settings-panel">
+            <div class="settings-title" data-locale="UI_SETTINGS_TITLE">Parametres hud</div>
+
+            <div class="settings-tabs">
+                <div class="settings-tab active" data-tab="foot"><i class="fas fa-person-walking"></i> <span data-locale="UI_TAB_FOOT">A Pied</span></div>
+                <div class="settings-tab" data-tab="vehicle"><i class="fas fa-car"></i> <span data-locale="UI_TAB_VEHICLE">Vehicule</span></div>
+            </div>
+
+            <div class="tab-content tab-foot active" data-tab="foot">
+                <div class="settings-subtitle" data-locale="UI_FOOT_STYLE">STYLE A PIED</div>
+                <div class="style-options">
+                    <div class="hud-style-option style-btn active" data-style="bars">
+                        <i class="fas fa-bars"></i>
+                        <span data-locale="UI_STYLE_BARS">Barres</span>
+                    </div>
+                    <div class="hud-style-option style-btn" data-style="boxes">
+                        <i class="fas fa-th-large"></i>
+                        <span data-locale="UI_STYLE_BOXES">Boites</span>
+                    </div>
+                    <div class="hud-style-option style-btn" data-style="bubbles">
+                        <i class="fas fa-circle"></i>
+                        <span data-locale="UI_STYLE_BUBBLES">Bulles</span>
+                    </div>
+                </div>
+
+                <div class="settings-subtitle" data-locale="UI_COLORS">COULEURS</div>
+                <div class="settings-list">
+                    <div class="settings-row" data-stat="health">
+                        <div class="settings-row-info">
+                            <div class="settings-row-title" data-locale="UI_HEALTH">Vie</div>
+                            <div class="settings-row-desc" data-locale="UI_HEALTH_DESC">Changer la couleur de la barre de vie.</div>
+                        </div>
+                        <label class="color-btn" data-locale="UI_CHANGE_COLOR">
+                            Change Color
+                            <input type="color" class="color-picker" data-stat="health" value="#e84393">
+                        </label>
+                    </div>
+                    <div class="settings-row" data-stat="armor">
+                        <div class="settings-row-info">
+                            <div class="settings-row-title" data-locale="UI_ARMOR">Armure</div>
+                            <div class="settings-row-desc" data-locale="UI_ARMOR_DESC">Changer la couleur de la barre d'armure.</div>
+                        </div>
+                        <label class="color-btn" data-locale="UI_CHANGE_COLOR">
+                            Changer la couleur
+                            <input type="color" class="color-picker" data-stat="armor" value="#00cec9">
+                        </label>
+                    </div>
+                    <div class="settings-row" data-stat="hunger">
+                        <div class="settings-row-info">
+                            <div class="settings-row-title" data-locale="UI_HUNGER">Faim</div>
+                            <div class="settings-row-desc" data-locale="UI_HUNGER_DESC">Changer la couleur de la barre de faim.</div>
+                        </div>
+                        <label class="color-btn" data-locale="UI_CHANGE_COLOR">
+                            Change Color
+                            <input type="color" class="color-picker" data-stat="hunger" value="#fdcb6e">
+                        </label>
+                    </div>
+                    <div class="settings-row" data-stat="thirst">
+                        <div class="settings-row-info">
+                            <div class="settings-row-title" data-locale="UI_THIRST">Soif</div>
+                            <div class="settings-row-desc" data-locale="UI_THIRST_DESC">Changer la couleur de la barre de soif.</div>
+                        </div>
+                        <label class="color-btn" data-locale="UI_CHANGE_COLOR">
+                            Change Color
+                            <input type="color" class="color-picker" data-stat="thirst" value="#74b9ff">
+                        </label>
+                    </div>
+                    <div class="settings-row" data-stat="stamina">
+                        <div class="settings-row-info">
+                            <div class="settings-row-title" data-locale="UI_STAMINA">Endurance</div>
+                            <div class="settings-row-desc" data-locale="UI_STAMINA_DESC">Changer la couleur de la barre d'endurance.</div>
+                        </div>
+                        <label class="color-btn" data-locale="UI_CHANGE_COLOR">
+                            Change Color
+                            <input type="color" class="color-picker" data-stat="stamina" value="#a29bfe">
+                        </label>
+                    </div>
+                </div>
+                <div class="btn save-foot-btn" data-locale="UI_SAVE">Sauvegarder</div>
+                <div class="btn reset-foot-btn" data-locale="UI_RESET">Reinitialiser</div>
+            </div>
+
+            <div class="tab-content tab-vehicle" data-tab="vehicle">
+                <div class="settings-subtitle" data-locale="UI_VEHICLE_STYLE">STYLE VEHICULE</div>
+                <div class="style-options">
+                    <div class="speedo-style-option style-btn active" data-style="default">
+                        <i class="fas fa-gauge-high"></i>
+                        <span data-locale="UI_STYLE_STANDARD">Standard</span>
+                    </div>
+                    <div class="speedo-style-option style-btn" data-style="minimal">
+                        <i class="fas fa-minus"></i>
+                        <span data-locale="UI_STYLE_MINIMAL">Minimal</span>
+                    </div>
+                    <div class="speedo-style-option style-btn" data-style="detailed">
+                        <i class="fas fa-sliders"></i>
+                        <span data-locale="UI_STYLE_REALISTIC">Realiste</span>
+                    </div>
+                </div>
+
+                <div class="settings-subtitle" data-locale="UI_SPEED_UNIT" style="margin-top: 15px;">UNITE DE VITESSE</div>
+                <div class="style-options">
+                    <div class="unit-option style-btn active" data-unit="kmh">
+                        <span>KM/H</span>
+                    </div>
+                    <div class="unit-option style-btn" data-unit="mph">
+                        <span>MPH</span>
+                    </div>
+                </div>
+
+                <div class="settings-subtitle" data-locale="UI_GPS_NAV" style="margin-top: 15px;">NAVIGATION GPS</div>
+                <div class="setting-row">
+                    <div class="setting-row-info">
+                        <strong data-locale="UI_GPS_STREET">Nom de rue & GPS</strong>
+                        <span class="setting-desc" data-locale="UI_GPS_DESC">Affiche le nom de la rue et les directions GPS.</span>
+                    </div>
+                    <div class="toggle-switch gps-toggle">
+                        <input type="checkbox" id="gps-toggle-input">
+                        <label for="gps-toggle-input"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-buttons">
+                <div class="btn close-btn" data-locale="UI_CLOSE">Fermer</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="js/utils.js?v=3"></script>
+    <script src="js/main.js?v=3"></script>
+</body>
+</html>
